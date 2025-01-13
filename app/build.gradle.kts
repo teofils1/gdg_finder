@@ -26,7 +26,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.dmd_project"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -55,12 +55,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -113,12 +113,11 @@ dependencies {
 
     implementation("androidx.databinding:databinding-runtime:8.1.0")
 
-//    // Room Database
-    implementation("androidx.room:room-runtime:2.5.0") // Replace with your Room version
-    kapt("androidx.room:room-compiler:2.5.0") // Annotation processor for Room
-
-    implementation("androidx.core:core-ktx:1.12.0") // Use the latest version
-
+    // Room Database
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1") // Use the latest version
+//
 //    ksp("androidx.room:room-compiler:$versionRoom")
 //    implementation("androidx.room:room-ktx:$versionRoom")
 }

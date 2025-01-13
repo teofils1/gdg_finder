@@ -40,6 +40,8 @@
     <string name="location_permission_snackbar">Location permission is required</string>
     <string name="submitted">Enviado, no hay necesidad de enviar de nuevo</string>
     <string name="done">Hecho</string>
+    <string name="error_empty_fields">Por favor, complete todos los campos.</string>
     <string name="submit">Enviar</string>
+    <string name="view_requests">View Requests</string>
     <string name="search_hint">Search GDG Clubs...</string>
 </resources>
