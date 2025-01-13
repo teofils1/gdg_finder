@@ -1,47 +1,64 @@
 package com.example.dmd_project
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.dmd_project.ui.theme.DMD_ProjectTheme
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.dmd_project.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            DMD_ProjectTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        setupNavigation()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
+
+    /**
+     * Called when the hamburger menu or back button are pressed on the Toolbar
+     *
+     * Delegate this to Navigation.
+     */
+    override fun onSupportNavigateUp() = navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
+
+    /**
+     * Setup Navigation for this Activity
+     */
+    private fun setupNavigation() {
+        // first find the nav controller
+        val navController = findNavController(R.id.nav_host_fragment)
+
+        setSupportActionBar(binding.toolbar)
+
+        // then setup the action bar, tell it about the DrawerLayout
+        setupActionBarWithNavController(navController, binding.drawerLayout)
+
+
+        // finally setup the left drawer (called a NavigationView)
+        binding.navigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
+            val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
+            when(destination.id) {
+                R.id.home -> {
+                    toolBar.setDisplayShowTitleEnabled(false)
+                    binding.heroImage.visibility = View.VISIBLE
+                }
+                else -> {
+                    toolBar.setDisplayShowTitleEnabled(true)
+                    binding.heroImage.visibility = View.GONE
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DMD_ProjectTheme {
-        Greeting("Android")
     }
 }
